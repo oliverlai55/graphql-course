@@ -1,11 +1,6 @@
 const graphql = require('graphql');
-const _ = require('lodash');
 const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema } = graphql;
-
-const users = [
-	{ id: '23', firstName: 'Bill', age: 20 },
-	{ id: '47', firstName: 'Sam', age: 21 }
-];
+const axios = require('axios');
 
 //Schema file for User
 
@@ -25,7 +20,10 @@ const RootQuery = new GraphQLObjectType({
 			type: UserType,
 			args: { id: { type: GraphQLString } },
 			resolve(parentValue, args) {
-				return _.find(users, { id: args.id });
+				return axios
+					.get(`http://localhost:3000/users/${args.id}`)
+					.then(resp => resp.data);
+				//we do this because when we respond data from json server, its listed as data {}
 			}
 		}
 	}
@@ -36,6 +34,7 @@ module.exports = new GraphQLSchema({
 });
 
 // args stuff required to find the info (ie id)
+// args.id the id is coming in from the query when its made
 // Rootquery allows us to entre graph of data to look for info
 // Resolve is a function that returns a piece of info
 // Rootquery goes to user key to find fields object, arg should come
