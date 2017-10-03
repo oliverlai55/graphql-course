@@ -2,6 +2,15 @@ const graphql = require('graphql');
 const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema } = graphql;
 const axios = require('axios');
 
+const CompanyType = new GraphQLObjectType({
+	name: 'Company',
+	fields: {
+		id: { type: GraphQLString },
+		name: { type: GraphQLString },
+		description: { type: GraphQLString }
+	}
+});
+
 //Schema file for User
 
 const UserType = new GraphQLObjectType({
@@ -9,7 +18,10 @@ const UserType = new GraphQLObjectType({
 	fields: {
 		id: { type: GraphQLString },
 		firstName: { type: GraphQLString },
-		age: { type: GraphQLInt }
+		age: { type: GraphQLInt },
+		company {
+			type: CompanyType
+		}
 	}
 });
 
