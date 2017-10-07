@@ -10,7 +10,7 @@ const axios = require('axios');
 
 const CompanyType = new GraphQLObjectType({
 	name: 'Company',
-	fields: {
+	fields: () => ({
 		id: { type: GraphQLString },
 		name: { type: GraphQLString },
 		description: { type: GraphQLString },
@@ -22,15 +22,16 @@ const CompanyType = new GraphQLObjectType({
 					.then(res => res.data);
 			}
 		}
-	}
+	})
 });
+// adding () function for fields, creates closure, so everything is defined before executing it
 // The new GraphQLList tells graphql we will have multiple users assocaited with the company
 
 //Schema file for User
 
 const UserType = new GraphQLObjectType({
 	name: 'User',
-	fields: {
+	fields: () => ({
 		id: { type: GraphQLString },
 		firstName: { type: GraphQLString },
 		age: { type: GraphQLInt },
@@ -42,7 +43,7 @@ const UserType = new GraphQLObjectType({
 					.then(res => res.data);
 			}
 		}
-	}
+	})
 });
 
 const RootQuery = new GraphQLObjectType({
